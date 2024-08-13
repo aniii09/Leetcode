@@ -1,0 +1,86 @@
+class Solution {
+public:
+         //code Treyan
+    using int2=pair<char, char>;
+    int n;
+         vector<vector<int>> result;
+    void backtrack(int i, vector<int>& subset, vector<int2>& nWm, int target) {
+
+        if (target == 0) {
+            result.push_back(subset);
+            return;
+        }
+
+
+
+        if (i == n || target < 0) 
+            return;
+        auto [x, m] = nWm[i];
+           int j0=min((int)m, target/x);
+        for (int j = 0; j <= j0; j++) {
+            int sz=subset.size();
+            //subset
+            subset.resize(sz+j);
+            //filll part
+                fill(subset.begin()+sz, subset.end(), x);
+               backtrack(i+1, subset, nWm, target-j*x);
+               subset.resize(sz);    
+        }
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+           char freq[51]={0}, xMax=0;
+         for(char x: candidates){
+             freq[x]++;
+            xMax=max(xMax, x);
+        }
+        vector<int2> nWm;
+           for (char x=1; x<=xMax; x++) {
+           char f=freq[x];
+           if (f>0) nWm.push_back({x, f});
+        }
+        n=nWm.size();
+          vector<int> subset;
+
+           backtrack(0, subset, nWm, target);
+        return result;
+    }
+
+};
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+QS-
+
+Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.
+
+Each number in candidates may only be used once in the combination.
+
+Note: The solution set must not contain duplicate combinations.
+
+ 
+
+Example 1:
+
+Input: candidates = [10,1,2,7,6,1,5], target = 8
+Output: 
+[
+[1,1,6],
+[1,2,5],
+[1,7],
+[2,6]
+]
+Example 2:
+
+Input: candidates = [2,5,2,1,2], target = 5
+Output: 
+[
+[1,2,2],
+[5]
+]
+ 
+
+Constraints:
+
+1 <= candidates.length <= 100
+1 <= candidates[i] <= 50
+1 <= target <= 30
