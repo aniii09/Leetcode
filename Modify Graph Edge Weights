@@ -10,12 +10,10 @@ public:
             auto& e=edges[i];
             int u=e[0], v=e[1], w=e[2];
             if (w>0){
-            //    cout<<w<<",";
                 adj[u].emplace_back(w, v);
                 adj[v].emplace_back(w, u);
             }
             else {
-            //    cout<<"mut:"<<i<<",";
                 wild_edges.push_back(i);
             }
         }
@@ -44,14 +42,11 @@ public:
     }
     vector<vector<int>> modifiedGraphEdges(int n, vector<vector<int>>& edges, int source, int destination, int target) {
         this->n=n;
-    //    cout<<n<<endl;
         adj.resize(n);
         m=edges.size();
-    //    cout<<"m="<<m<<endl;
         build_graph(edges);
 
         int dist=dijkstra(source, destination, adj);
-   //     cout<<"dist="<<dist<<endl;
         if (dist< target) return {};
         
         for (auto i: wild_edges)
@@ -65,10 +60,8 @@ public:
             adj[u].emplace_back(1, v);
             adj[v].emplace_back(1, u);
             dist=dijkstra(source, destination, adj);
-        //    cout<<"add edges["<<i<<"] dist="<<dist<<endl;
             if (dist<=target) {
                 new_edge[2]+=target-dist;
-        //        cout<<"last i="<<i<<", w="<<edges[i][2]<<endl;
                 return edges; 
             }
         }
