@@ -1,3 +1,29 @@
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+//code Aniii
+    int minGroups(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end());
+        priority_queue<int, vector<int>, greater<int>> pq;
+        for (const auto& interval : intervals) {
+            int start = interval[0], end = interval[1];
+            if (!pq.empty() && pq.top() < start) {
+                pq.pop();
+            }
+            pq.push(end);
+        }
+        return pq.size();
+    }
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+qs-
+
 You are given a 2D integer array intervals where intervals[i] = [lefti, righti] represents the inclusive interval [lefti, righti].
 
 You have to divide the intervals into one or more groups such that each interval is in exactly one group, and no two intervals that are in the same group intersect each other.
